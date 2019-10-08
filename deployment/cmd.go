@@ -1,11 +1,11 @@
-package main
+package cmd
 
 import (
 	"fmt"
 	"log"
 	"strconv"
 	"time"
-    //"net/http"
+    "net/http"
 
 	messagebird "github.com/messagebird/go-rest-api"
 	"github.com/messagebird/go-rest-api/sms"
@@ -45,9 +45,7 @@ func init() {
 
 }
 
-// func Main(http.ResponseWriter, *http.Request) {
-// To test we use the local main but when deploying the function has to be public and needs to take the proper http arguments.
-func main() {
+func Main(http.ResponseWriter, *http.Request) {
 	log.Println("Go HB!")
 
 	birthdates := map[string]time.Time{
@@ -88,7 +86,7 @@ func main() {
 			age := now.Year() - birthdate.Year()
 			log.Printf("It is %s's birthday! %d years of greatness :) \n", name, age)
 			smsRequest := SMSRequest{
-				Recipient:  316123456,
+				Recipient:  31633450007,
 				Originator: "go-HB app",
 				Message:    fmt.Sprintf("It is %s's birthday! %d years of greatness, wish it :) ", name, age),
 			}
@@ -104,7 +102,7 @@ func main() {
 
 	if now.Day() == 1 && !smsSent {
 		smsRequest := SMSRequest{
-			Recipient:  316123456,
+			Recipient:  31633450007,
 			Originator: "go-HB app",
 			Message:    fmt.Sprintf("go-hb is still standing strong!"),
 		}
