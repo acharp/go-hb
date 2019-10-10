@@ -1,3 +1,5 @@
+//package cmd
+// To test locally we need use main but when deploying the function it has to be a proper package
 package main
 
 import (

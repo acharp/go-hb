@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	//"net/http"
+	"net/http"
 
 	messagebird "github.com/messagebird/go-rest-api"
 	"github.com/messagebird/go-rest-api/sms"
@@ -47,9 +47,9 @@ func init() {
 	MBClient = messagebird.New(os.Getenv("MBIRD_LIVE_I"))
 }
 
-// func Main(http.ResponseWriter, *http.Request) {
-// To test we use the local main but when deploying the function has to be public and needs to take the proper http arguments.
-func main() {
+func Main(http.ResponseWriter, *http.Request) {
+	// To test we use the local main but when deploying the function has to be public and needs to take the proper http arguments.
+	// func main() {
 	log.Println("Go HB!")
 
 	birthdates := map[string]time.Time{
