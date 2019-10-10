@@ -1,5 +1,5 @@
-//package cmd
-// To test locally we need use main but when deploying the function it has to be a proper package
+// package cmd
+// To test locally we need to use main but when deploying the function it has to be a proper package
 package main
 
 import (
@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	//"net/http"
+	// "context"
 
 	messagebird "github.com/messagebird/go-rest-api"
 	"github.com/messagebird/go-rest-api/sms"
@@ -20,6 +20,11 @@ type SMSRequest struct {
 	Recipient  int    `json:"recipient"`
 	Originator string `json:"originator"`
 	Message    string `json:"message"`
+}
+
+// PubSubMessage is the payload of a Pub/Sub event.
+type PubSubMessage struct {
+	Data []byte `json:"data"`
 }
 
 // Call MessageBird service to send an SMS
@@ -49,7 +54,7 @@ func init() {
 	MBClient = messagebird.New(os.Getenv("MBIRD_LIVE_I"))
 }
 
-// func Main(http.ResponseWriter, *http.Request) {
+// func Main(ctx context.Context, m PubSubMessage) error {
 // To test we use the local main but when deploying the function has to be public and needs to take the proper http arguments.
 func main() {
 	log.Println("Go HB!")
@@ -123,4 +128,5 @@ func main() {
 	}
 
 	log.Println("All the birthdays from the crew have been checked, bye!")
+	// return nil
 }
