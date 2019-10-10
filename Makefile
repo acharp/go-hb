@@ -7,6 +7,7 @@ build:
 run: build
 	@./bin/go-hb $(ARGS)
 
+# First change the package name, the main function signature and uncomment the net/http package then zip and it's good to deploy
 zip:
 	cp cmd/main.go deployment/cmd.go
 	cp -R vendor deployment/
