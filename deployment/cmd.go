@@ -1,11 +1,13 @@
-package cmd
+package main
 
 import (
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 	"time"
-    "net/http"
+
+	//"net/http"
 
 	messagebird "github.com/messagebird/go-rest-api"
 	"github.com/messagebird/go-rest-api/sms"
@@ -39,13 +41,15 @@ func sendSMS(client *messagebird.Client, smsRequest SMSRequest) error {
 var MBClient *messagebird.Client
 
 func init() {
-
 	// Test API key
-	// MBClient = messagebird.New("HLrjj0gVcebObnlTFQrt0E11U")
-
+	// MBClient = messagebird.New(os.Getenv("MBIRD_TEST"))
+	// Live API key
+	MBClient = messagebird.New(os.Getenv("MBIRD_LIVE_I"))
 }
 
-func Main(http.ResponseWriter, *http.Request) {
+// func Main(http.ResponseWriter, *http.Request) {
+// To test we use the local main but when deploying the function has to be public and needs to take the proper http arguments.
+func main() {
 	log.Println("Go HB!")
 
 	birthdates := map[string]time.Time{
@@ -80,13 +84,17 @@ func Main(http.ResponseWriter, *http.Request) {
 	}
 	now := time.Now()
 	smsSent := false
+	phoneNumber, err := strconv.Atoi(os.Getenv("PHONE_NUMBER"))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	for name, birthdate := range birthdates {
 		if now.Day() == birthdate.Day() && now.Month() == birthdate.Month() {
 			age := now.Year() - birthdate.Year()
 			log.Printf("It is %s's birthday! %d years of greatness :) \n", name, age)
 			smsRequest := SMSRequest{
-				Recipient:  31633450007,
+				Recipient:  phoneNumber,
 				Originator: "go-HB app",
 				Message:    fmt.Sprintf("It is %s's birthday! %d years of greatness, wish it :) ", name, age),
 			}
@@ -102,7 +110,7 @@ func Main(http.ResponseWriter, *http.Request) {
 
 	if now.Day() == 1 && !smsSent {
 		smsRequest := SMSRequest{
-			Recipient:  31633450007,
+			Recipient:  phoneNumber,
 			Originator: "go-HB app",
 			Message:    fmt.Sprintf("go-hb is still standing strong!"),
 		}
